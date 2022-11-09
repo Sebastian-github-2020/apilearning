@@ -3,14 +3,16 @@ using apilearning.Models;
 using apilearning.MyDbContext;
 using Microsoft.EntityFrameworkCore;
 
-namespace apilearning.Controllers {
+namespace apilearning.Controllers
+{
     /// <summary>
     /// 用户
     /// </summary>
     [ApiExplorerSettings(GroupName = "v1")]
     [ApiController]
     [Route("[controller]")]
-    public class UserController {
+    public class UserController : ControllerBase
+    {
 
         public netsqlContext _context { get; } = null!;
         public UserController(netsqlContext dbContext) {
