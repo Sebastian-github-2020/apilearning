@@ -61,17 +61,17 @@ namespace apilearning
                 });
 
             });
-            // home
+            // 注册数据库上下文 home
             builder.Services.AddDbContext<accountContext>(opt =>
             {
                 opt.UseMySql(builder.Configuration.GetConnectionString("Home"), ServerVersion.Parse("8.0.28-mysql"));
             });
 
             //// 注册数据库上下文office
-            //builder.Services.AddDbContext<netsqlContext>(opt =>
-            //{
-            //    opt.UseMySql(builder.Configuration.GetConnectionString("Office"), ServerVersion.Parse("8.0.29-mysql"));
-            //});
+            builder.Services.AddDbContext<netsqlContext>(opt =>
+            {
+                opt.UseMySql(builder.Configuration.GetConnectionString("Office"), ServerVersion.Parse("8.0.29-mysql"));
+            });
 
 
 

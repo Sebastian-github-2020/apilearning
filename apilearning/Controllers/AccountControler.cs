@@ -10,7 +10,7 @@ namespace apilearning.Controllers
     /// </summary>
     [ApiExplorerSettings(GroupName = "v1")]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/account")]
     public class AccountControler : ControllerBase
     {
         public accountContext _db { get; } = null!;
@@ -22,9 +22,25 @@ namespace apilearning.Controllers
             _db = db;
         }
 
-        [HttpPost(Name = "accounts")]
+        /// <summary>
+        /// 查询所有账户
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("get")]
         public async Task<ActionResult<List<MyAccount>>> GetAccount() {
             return await _db.MyAccounts.ToListAsync();
+        }
+
+        /// <summary>
+        /// 添加账户
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns></returns>
+        [HttpPost("add")]
+        public async Task<ActionResult<MyAccount>> AddAccount(MyAccount account) {
+            _db.MyAccounts.Add(account);
+            await _db.SaveChangesAsync();
+            return CreatedAtAction("account", new { id = account.Id }, account);
         }
     }
 }
