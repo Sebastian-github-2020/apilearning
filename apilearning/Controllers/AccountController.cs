@@ -9,16 +9,16 @@ namespace apilearning.Controllers
     /// 账户api
     /// </summary>
     [ApiExplorerSettings(GroupName = "v1")]
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("api/account")]
-    public class AccountControler : ControllerBase
+    public class AccountController : ControllerBase
     {
         public accountContext _db { get; } = null!;
         /// <summary>
         /// 注入 数据库上下文
         /// </summary>
         /// <param name="db">数据库上下文</param>
-        public AccountControler(accountContext db) {
+        public AccountController(accountContext db) {
             _db = db;
         }
 
@@ -26,7 +26,7 @@ namespace apilearning.Controllers
         /// 查询所有账户
         /// </summary>
         /// <returns></returns>
-        [HttpGet("get")]
+        [HttpGet("accounts")]
         public async Task<ActionResult<List<MyAccount>>> GetAccount() {
             return await _db.MyAccounts.ToListAsync();
         }
