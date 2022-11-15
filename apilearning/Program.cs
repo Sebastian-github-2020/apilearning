@@ -32,9 +32,10 @@ namespace apilearning {
                 // 如果 请求的数据类型 如 application/json 服务不支持json类型 则返回406状态码，false 就返回服务器支持的类型
                 setup.ReturnHttpNotAcceptable = true;
                 //配置数据格式化器， 默认只支持json,这里添加xml的数据格式化器
-                setup.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
+                setup.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter()); //优先xml
 
             })
+                //.AddXmlDataContractSerializerFormatters() // 这种方式也能添加xml格式化器,优先xml
                 .AddNewtonsoftJson(options => {
                     // 添加时间格式化服务
                     options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";

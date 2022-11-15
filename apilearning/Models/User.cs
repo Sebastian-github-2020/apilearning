@@ -18,5 +18,13 @@ namespace apilearning.Models {
         /// 出生日期
         /// </summary>
         public DateTime BornDate { get; set; }
+        /// <summary>
+        /// 密码
+        /// </summary>
+        public string Password { get; set; } = null!;
+        /// <summary>
+        /// 收入
+        /// </summary>
+        public double Salary { get; set; }
     }
 }

@@ -4,10 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using apilearning.Models;
 
-namespace apilearning.MyDbContext
-{
-    public partial class accountContext : DbContext
-    {
+namespace apilearning.MyDbContext {
+    public partial class accountContext : DbContext {
         public accountContext() {
         }
 
@@ -19,20 +17,18 @@ namespace apilearning.MyDbContext
 
         public virtual DbSet<MyAccount> MyAccounts { get; set; } = null!;
 
-        //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
-        //            if(!optionsBuilder.IsConfigured)
-        //            {
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
+        //    if(!optionsBuilder.IsConfigured) {
 
-        //                optionsBuilder.UseMySql("server=localhost;user=root;password=123456;database=account", ServerVersion.Parse("8.0.28-mysql"));
-        //            }
-        //        }
+        //        optionsBuilder.UseMySql("server=localhost;user=root;password=123456;database=account", ServerVersion.Parse("8.0.28-mysql"));
+        //    }
+        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             modelBuilder.UseCollation("utf8mb4_0900_ai_ci")
                 .HasCharSet("utf8mb4");
 
-            modelBuilder.Entity<AccountMovie>(entity =>
-            {
+            modelBuilder.Entity<AccountMovie>(entity => {
                 entity.ToTable("account_movie");
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -61,8 +57,7 @@ namespace apilearning.MyDbContext
             });
 
 
-            modelBuilder.Entity<MyAccount>(entity =>
-            {
+            modelBuilder.Entity<MyAccount>(entity => {
                 entity.ToTable("my_account");
 
                 entity.HasCharSet("utf8")
