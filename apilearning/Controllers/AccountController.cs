@@ -2,17 +2,15 @@
 using apilearning.MyDbContext;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
-namespace apilearning.Controllers
-{
+// home
+namespace apilearning.Controllers {
     /// <summary>
     /// 账户api
     /// </summary>
     [ApiExplorerSettings(GroupName = "v1")]
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController : ControllerBase
-    {
+    public class AccountController : ControllerBase {
         public accountContext _db { get; } = null!;
         /// <summary>
         /// 注入 数据库上下文
