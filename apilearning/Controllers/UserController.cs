@@ -4,15 +4,15 @@ using apilearning.MyDbContext;
 using Microsoft.EntityFrameworkCore;
 using apilearning.ModelDtos;
 using AutoMapper;
+using apilearning.Tools;
+using System.Collections.Generic;
 // office
 namespace apilearning.Controllers {
     /// <summary>
     /// 用户
     /// </summary>
     [ApiExplorerSettings(GroupName = "v1")]
-    [ApiController]
-    [Route("api/[controller]")]
-    public class UserController : ControllerBase {
+    public class UserController : CommonController {
 
         public netsqlContext _context { get; } = null!;
         public IMapper _mapper { get; } // 注入automapper
@@ -47,12 +47,16 @@ namespace apilearning.Controllers {
         /// <returns></returns>
         [HttpPost("users")]
         public async Task<ActionResult> GetUsers() {
-            var users = await _context.Users.ToListAsync();
-            // 使用AutoMapper来实现 对象转换  模型->dto模型
-            var dtos = _mapper.Map<IEnumerable<UserDto>>(users);
-
-
-            return Ok(dtos);
+            ApiResult<IEnumerable<UserDto>>? a;
+            try {
+                var users = await _context.Users.ToListAsync();
+                // 使用AutoMapper来实现 对象转换  模型->dto模型
+                IEnumerable<UserDto>? dtos = _mapper.Map<IEnumerable<UserDto>>(users);
+                a = GenActionResultGenericEx<IEnumerable<UserDto>>(dtos, "查询成功");
+            } catch(Exception e) {
+                a = GenActionResultGenericEx<IEnumerable<UserDto>>(null, "查询异常", ApiResultCode.Failed, e);
+            }
+            return Ok(a);
         }
     }
 }
