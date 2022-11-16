@@ -53,9 +53,9 @@ namespace apilearning.Controllers {
                 var users = await _context.Users.ToListAsync();
                 // 使用AutoMapper来实现 对象转换  模型->dto模型
                 IEnumerable<UserDto>? dtos = _mapper.Map<IEnumerable<UserDto>>(users);
-                a = GenActionResultGenericEx<IEnumerable<UserDto>>(dtos, "查询成功");
+                a = CommonResponse<IEnumerable<UserDto>>(dtos, "查询成功");
             } catch(Exception e) {
-                a = GenActionResultGenericEx<IEnumerable<UserDto>>(null, "查询异常", ApiResultCode.Failed, e);
+                a = CommonResponse<IEnumerable<UserDto>>(null, "查询异常", ApiResultCode.Failed, e);
             }
             return Ok(a);
         }
@@ -74,10 +74,10 @@ namespace apilearning.Controllers {
                 // automappe映射
                 UserDto? udto = _mapper.Map<UserDto>(u);
                 // 封装到统一的返回类
-                a = GenActionResultGenericEx(udto, message, ApiResultCode.Success);
+                a = CommonResponse(udto, message, ApiResultCode.Success);
             } catch(Exception e) {
 
-                a = GenActionResultGenericEx<UserDto>(null, "查询成功", ApiResultCode.Success, e);
+                a = CommonResponse<UserDto>(null, "查询成功", ApiResultCode.Success, e);
             }
 
 
