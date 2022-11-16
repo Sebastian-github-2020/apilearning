@@ -42,11 +42,12 @@ namespace apilearning.Controllers {
             return Ok(dtos);
         }
         /// <summary>
-        /// post 查询用户
+        ///  查询用户
         /// </summary>
         /// <returns></returns>
         [HttpPost("users")]
-        public async Task<ActionResult> GetUsers() {
+        [HttpGet("users1")]
+        public async Task<ActionResult<ApiResult<IEnumerable<UserDto>>>> GetUsers() {
             ApiResult<IEnumerable<UserDto>>? a;
             try {
                 var users = await _context.Users.ToListAsync();
@@ -56,6 +57,30 @@ namespace apilearning.Controllers {
             } catch(Exception e) {
                 a = GenActionResultGenericEx<IEnumerable<UserDto>>(null, "查询异常", ApiResultCode.Failed, e);
             }
+            return Ok(a);
+        }
+
+        /// <summary>
+        /// 通过id 查询用户
+        /// </summary>
+        /// <param name="id">用户id</param>
+        /// <param name="message">用户message</param>
+        /// <returns></returns>
+        [HttpPost("getuser")]
+        public async Task<ActionResult<ApiResult<UserDto>>> QueryUser(int id, [FromRoute] string message = "查询成功") {
+            ApiResult<UserDto>? a;
+            try {
+                User? u = await _context.Users.FindAsync(id);
+                // automappe映射
+                UserDto? udto = _mapper.Map<UserDto>(u);
+                // 封装到统一的返回类
+                a = GenActionResultGenericEx(udto, message, ApiResultCode.Success);
+            } catch(Exception e) {
+
+                a = GenActionResultGenericEx<UserDto>(null, "查询成功", ApiResultCode.Success, e);
+            }
+
+
             return Ok(a);
         }
     }
