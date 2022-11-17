@@ -67,7 +67,7 @@ namespace apilearning.Controllers {
         /// <param name="message">用户message</param>
         /// <returns></returns>
         [HttpPost("getuser")]
-        public async Task<ActionResult<ApiResult<UserDto>>> QueryUser(int id, [FromRoute] string message = "查询成功") {
+        public async Task<ActionResult<ApiResult<UserDto>>> QueryUser(int id, [FromQuery] string message = "查询成功") {
             ApiResult<UserDto>? a;
             try {
                 User? u = await _context.Users.FindAsync(id);
@@ -82,6 +82,21 @@ namespace apilearning.Controllers {
 
 
             return Ok(a);
+        }
+
+
+        [HttpPatch("updateuser")]
+        public async Task<ActionResult> UpdateUser([FromBody] User user) {
+            //1.判断用户是否存在
+            User u = await _context.Users.SingleAsync(u => u.Id == user.Id);
+            if(u != null) {
+                u.Name = user.Name;
+                u.Salary = user.Salary;
+                u.Password = user.Password;
+            }
+            _context.SaveChanges();
+            return Ok(u);
+
         }
     }
 }

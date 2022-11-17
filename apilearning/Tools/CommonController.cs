@@ -16,7 +16,7 @@ namespace apilearning.Tools {
         /// <param name="code">返回的状态码</param>
         /// <param name="ex">异常信息</param>
         /// <returns>返回统一的格式给API消费者</returns>
-        protected ApiResult<T> CommonResponse<T>(T? datas, string message = "", ApiResultCode code = ApiResultCode.Success, Exception ex = null) {
+        protected ApiResult<T> CommonResponse<T>(T? datas, string message = "", ApiResultCode code = ApiResultCode.Success, Exception? ex = null) {
             //异常不为空
             if(ex != null) {
                 code = ApiResultCode.Failed;
