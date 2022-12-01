@@ -3,21 +3,23 @@ using apilearning.MyDbContext;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 // home
-namespace apilearning.Controllers {
+namespace apilearning.Controllers
+{
     /// <summary>
     /// 账户api
     /// </summary>
     [ApiExplorerSettings(GroupName = "v1")]
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController : ControllerBase {
-        public accountContext _db { get; } = null!;
+    public class AccountController : ControllerBase
+    {
+        private accountContext Db { get; }
         /// <summary>
         /// 注入 数据库上下文
         /// </summary>
         /// <param name="db">数据库上下文</param>
         public AccountController(accountContext db) {
-            _db = db;
+            Db = db;
         }
 
         /// <summary>
@@ -26,7 +28,7 @@ namespace apilearning.Controllers {
         /// <returns></returns>
         [HttpGet("accounts")]
         public async Task<ActionResult<List<MyAccount>>> GetAccount() {
-            return await _db.MyAccounts.ToListAsync();
+            return await Db.MyAccounts.ToListAsync();
         }
 
         /// <summary>
@@ -36,9 +38,9 @@ namespace apilearning.Controllers {
         /// <returns></returns>
         [HttpPost("add")]
         public async Task<ActionResult<MyAccount>> AddAccount(MyAccount account) {
-            _db.MyAccounts.Add(account);
-            await _db.SaveChangesAsync();
-            return CreatedAtAction("account", new { id = account.Id }, account);
+            Db.MyAccounts.Add(account);
+            await Db.SaveChangesAsync();
+            return CreatedAtAction("AddAccount", new { id = account.Id }, account);
         }
     }
 }
