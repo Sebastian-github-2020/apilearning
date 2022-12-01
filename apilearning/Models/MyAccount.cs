@@ -14,7 +14,9 @@ namespace apilearning.Models
         public string AccountName { get; set; } = null!;
         [IgnoreDataMember] // 序列化时候忽略 不返回给用户
         public string AccountPassword { get; set; } = null!;
+        [JsonIgnore]
         public DateTime? CreateDate { get; set; }
+        [JsonIgnore]
         public DateTime? ModifyDate { get; set; }
         public string? Email { get; set; }
         public string? Phone { get; set; }
