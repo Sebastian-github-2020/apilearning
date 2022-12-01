@@ -2,15 +2,18 @@
 using apilearning.MyDbContext;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using apilearning.Tools;
 // home
-namespace apilearning.Controllers {
+namespace apilearning.Controllers
+{
     /// <summary>
     /// 账户api
     /// </summary>
     [ApiExplorerSettings(GroupName = "v1")]
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController : ControllerBase {
+    public class AccountController : CommonController
+    {
         public accountContext _db { get; } = null!;
         /// <summary>
         /// 注入 数据库上下文
@@ -25,8 +28,21 @@ namespace apilearning.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpGet("accounts")]
-        public async Task<ActionResult<List<MyAccount>>> GetAccount() {
-            return await _db.MyAccounts.ToListAsync();
+        public async Task<ActionResult<ApiResult<List<MyAccount>>>> GetAccount() {
+            //包一下 返回自定义的数据结构
+            ApiResult<List<MyAccount>> a;
+            try
+            {
+                var b = await _db.MyAccounts.ToListAsync();
+                a = CommonResponse(b, "查询成功", ApiResultCode.Success);
+            }
+            catch(Exception e)
+            {
+
+                a = CommonResponse<List<MyAccount>>(null, "查询异常", ApiResultCode.Failed, e);
+            }
+
+            return Ok(a);
         }
 
         /// <summary>
