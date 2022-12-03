@@ -29,7 +29,7 @@ namespace apilearning.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("accounts")]
-        [Authorize(Roles = "guest")]
+        [Authorize(Roles = "admin,guest")]
         public async Task<ActionResult<ApiResult<List<MyAccount>>>> GetAccount() {
             var user = HttpContext.User;
             Console.WriteLine(user);
