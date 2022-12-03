@@ -54,7 +54,7 @@ namespace apilearning.Controllers
                 // sub 用户id
                 new Claim(JwtRegisteredClaimNames.Sub,"zaks"),
                 //角色
-                new Claim(ClaimTypes.Role,"admin")
+                new Claim(ClaimTypes.Role,"guest")
             };
 
             // 从appsettings里面读取SecretKey 并加密 下面是拆分的步骤

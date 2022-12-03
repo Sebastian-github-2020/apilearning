@@ -3,6 +3,7 @@ using apilearning.MyDbContext;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using apilearning.Tools;
+using Microsoft.AspNetCore.Authorization;
 // home
 namespace apilearning.Controllers
 {
@@ -28,7 +29,10 @@ namespace apilearning.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("accounts")]
+        [Authorize(Roles = "guest")]
         public async Task<ActionResult<ApiResult<List<MyAccount>>>> GetAccount() {
+            var user = HttpContext.User;
+            Console.WriteLine(user);
             //包一下 返回自定义的数据结构
             ApiResult<List<MyAccount>> a;
             try
