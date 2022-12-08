@@ -6,6 +6,7 @@ using apilearning.ModelDtos;
 using AutoMapper;
 using apilearning.Tools;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 // office
 namespace apilearning.Controllers {
     /// <summary>
@@ -26,6 +27,7 @@ namespace apilearning.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpGet("users")]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<List<UserDto>>> Users() {
             var users = await _context.Users.ToListAsync();
             // 使用dto模型来输出
