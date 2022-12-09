@@ -7,6 +7,8 @@ using AutoMapper;
 using apilearning.Tools;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
+using apilearning.ModelServices;
+using apilearning.IService;
 // office
 namespace apilearning.Controllers {
     /// <summary>
@@ -17,9 +19,12 @@ namespace apilearning.Controllers {
 
         public netsqlContext _context { get; } = null!;
         public IMapper _mapper { get; } // 注入automapper
-        public UserController(netsqlContext dbContext, IMapper mapper) {
+
+        public IUserModelService UserService { get; }
+        public UserController(netsqlContext dbContext, IMapper mapper, IUserModelService userModelService) {
             _context = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
             _mapper = mapper;
+            UserService = userModelService;
         }
 
         /// <summary>
@@ -52,7 +57,8 @@ namespace apilearning.Controllers {
         public async Task<ActionResult<ApiResult<IEnumerable<UserDto>>>> GetUsers() {
             ApiResult<IEnumerable<UserDto>>? a;
             try {
-                var users = await _context.Users.ToListAsync();
+                //var users = await _context.Users.ToListAsync();
+                var users = await UserService.GetUserListAsync();
                 // 使用AutoMapper来实现 对象转换  模型->dto模型
                 IEnumerable<UserDto>? dtos = _mapper.Map<IEnumerable<UserDto>>(users);
                 a = CommonResponse<IEnumerable<UserDto>>(dtos, "查询成功");

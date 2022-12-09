@@ -26,5 +26,6 @@ namespace apilearning.Models {
         /// 收入
         /// </summary>
         public double Salary { get; set; }
+
     }
 }

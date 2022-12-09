@@ -7,6 +7,8 @@ using System.Reflection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Newtonsoft.Json;
+using apilearning.IService;
+using apilearning.ModelServices;
 
 namespace apilearning {
 
@@ -48,8 +50,7 @@ namespace apilearning {
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
 
-            // 添加AutoMapper服务
-            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             // 添加跨域支持
             builder.Services.AddCors(setUp => {
                 setUp.AddPolicy("cor", builder => builder.AllowAnyOrigin());
@@ -92,6 +93,10 @@ namespace apilearning {
 
 
             });
+
+            //注册数据服务
+            // 添加AutoMapper服务
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             // 注册数据库上下文 home
             builder.Services.AddDbContext<accountContext>(opt => {
                 opt.UseMySql(builder.Configuration.GetConnectionString("Home"), ServerVersion.Parse("8.0.28-mysql"));
@@ -101,6 +106,8 @@ namespace apilearning {
             builder.Services.AddDbContext<netsqlContext>(opt => {
                 opt.UseMySql(builder.Configuration.GetConnectionString("Office"), ServerVersion.Parse("8.0.29-mysql"));
             });
+            // 添加单例服务 user模型的查询方法封装
+            builder.Services.AddScoped<IUserModelService, UserModelService>();
 
 
 
@@ -174,5 +181,14 @@ namespace apilearning {
 
             app.Run();
         }
+
+        /// <summary>
+        /// 注册数据对象 服务
+        /// </summary>
+        /// <param name="builder"></param>
+        public static void RegisterObjectService(WebApplicationBuilder builder) {
+
+        }
+
     }
 }
